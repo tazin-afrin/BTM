@@ -8,17 +8,19 @@ beta=0.005
 niter=5
 save_step=501
 
-input_dir=../sample-data/
+input_dir=../../../../Data/
 output_dir=../output/
 model_dir=${output_dir}model/
+model_dir_test=${output_dir}model/test/
 mkdir -p $output_dir/model 
 
 # the input docs for training
-doc_pt=${input_dir}doc_info.txt
+doc_pt=${input_dir}topic_train.txt
 
 echo "=============== Index Docs ============="
 # docs after indexing
 dwid_pt=${output_dir}doc_wids.txt
+dwid_test_pt=${output_dir}doc_wids_test.txt
 # vocabulary file
 voca_pt=${output_dir}voca.txt
 python indexDocs.py $doc_pt $dwid_pt $voca_pt
@@ -32,8 +34,8 @@ echo "../src/btm est $K $W $alpha $beta $niter $save_step $dwid_pt $model_dir"
 
 ## infer p(z|d) for each doc
 echo "================ Infer P(z|d)==============="
-echo "../src/btm inf sum_b $K $dwid_pt $model_dir"
-../src/btm inf sum_b $K $dwid_pt $model_dir
+echo "../src/btm inf sum_b $K $dwid_test_pt $model_dir"
+../src/btm inf sum_b $K $dwid_test_pt $model_dir
 
 ## output top words of each topic
 echo "================ Topic Display ============="
